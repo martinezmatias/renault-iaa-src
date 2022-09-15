@@ -1,0 +1,5 @@
+com.renault.dates.Day day = new com.renault.dates.Day("20160502");
+System.out.println("day = " + day);
+com.renault.dates.Week week = new com.renault.dates.Week(day);
+System.out.println("week = " + week);
+		

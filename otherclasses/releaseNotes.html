@@ -1,0 +1,916 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="Author" content="Laurent Cosserat">
+  <meta name="GENERATOR" content="Mozilla/4.7 [fr]C-CCK-MCD Distribution Renault  (WinNT; I) [Netscape]"><title>Notes API dates</title></head><body alink="#ff0000" link="#0000ee" text="#000000" vlink="#551a8b">
+<center>
+  <h1> SICG dates API</h1>
+</center>
+<center>
+  <h1> Release notes</h1>
+  <p>&nbsp;</p>
+</center>
+
+
+<h3>V 5.3.0 (04/10/2018)</h3>
+<ul>
+  <li>class Interval
+    <ul>
+      <li>new static method getInclusive(Interval[])</li>
+    </ul>
+  </li>
+</ul>
+<h3>V 5.2.4 (12/05/2016)</h3>
+<ul>
+  <li>class CalendarMonth
+    <ul>
+      <li>bug fixed in method getCalendar()</li>
+    </ul>
+  </li>
+</ul>
+<h3>V 5.2.3 (20/06/2014)</h3>
+<ul>
+  <li>all classes of sicg.renault.dates
+    <ul>
+      <li>Fixing of critical defaults detected by SonarQube.</li>
+    </ul>
+  </li>
+</ul>
+<h3>V 5.2.2 (10/03/2014)</h3>
+<ul>
+  <li>classes Month and CalendarMonth
+    <ul>
+      <li>bug fixed in method nbUnits(), that resulted in a WrongDateOrderException.</li>
+    </ul>
+  </li>
+</ul>
+<h3>V 5.2.1 (04/11/2013)</h3>
+<ul>
+  <li>class CalendarMonth
+    <ul>
+      <li>bug fixed in method getLast(), that resulted in a stack overflow.</li>
+      <li>bug fixed in method compareTo(), that resulted in a stack overflow.</li>
+    </ul>
+  </li>
+  </ul>
+<h3>V 5.2.0 (24/09/2013)</h3>
+<ul>
+  <li>class Date
+    <ul>
+      <li>new method diff()</li>
+      <li>nbUnits(Date) and nbUnits(Date, boolean) are not abstract anymore</li>
+    </ul>
+  </li>
+  <li>class Day
+    <ul>
+      <li>bug fixed in bug in  constructor Day(int, int, int, DayMode). This bug could yield erroneous  results with DayMode.WEEK when the resulting Day has a year which is not equal  to the year argument.</li>
+    </ul>
+  </li>
+  <li>class Week
+    <ul>
+      <li>bug fixed in method shift() : an endless loop was happening in some cases.</li>
+    </ul>
+  </li>
+  </ul>
+<h3>V 5.1.3 (18/06/2013)</h3>
+<p>Code identique, mais production et déploiement par Maven.
+Plus des classes de test junit</p>
+
+
+<h3>V5.1.2 (29/06/2012)</h3>
+
+<ul>
+  <li>class Month
+    <ul>
+      <li>bug fixed in constructor Month(Calendar).<ul>
+          <li>the instance built was erroneous when the Calendar argument was set on a Monday one of the 3 first days of a calendar month.</li></ul></li></ul></li></ul>
+
+<h3>V5.1.1 (18/06/2012)</h3>
+<ul>
+  <li>class Day
+    <ul>
+      <li>bug fixed in <font style="color: black;" color="#ff0000">constructor
+        Day(int,int,int)</font></li>
+      <li><font color="#000000">bug fixed in constructor Day(int, int, int, DayMode)</font>
+        <ul>
+          <li><font color="#000000">the constructor crashed when the instance
+            and its week did not belong to the same year.</font></li>
+        </ul>
+      </li>
+      <li>bug fixed in method getCalendar()</li>
+      <li>bug fixed
+        <ul>
+          <li>because of this bug, with an instance built with any constructor,
+            the dayOfYear() accessor returned improperly 0.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>class Week
+    <ul>
+      <li>bug fixed in method getCalendar().</li>
+    </ul>
+  </li>
+</ul>
+<ul>
+  <li>class Month
+    <ul>
+      <li>bug fixed.
+        <ul>
+          <li>this bug resulted in wrong comparisons between a finite instance
+            and M000000.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<h3>V5.1 (09/09/2011)</h3>
+
+<p>Evolutions that are not compatible with previous versions are <font color="#ff0000">written
+  in red</font>.</p>
+<ul>
+  <li><font color="#ff0000"><strong>package sicg.dates is from now on called com.renault.dates.</strong><br>
+    </font></li>
+  <li>class Date
+    <ul>
+      <li>new method nbUnits(Date date, boolean order)</li>
+      <li><font color="#ff0000">accessibility of constructor Day(boolean) is restricted
+        from public to package.</font></li>
+    </ul>
+  </li>
+  <li>classes Day, Year, Month, CalendarMonth, Week
+    <ul>
+      <li>new method nbUnits(Date, boolean)</li>
+      <li><font color="#ff0000">accessibility of constructors Day(Calendar), Year(Calendar),
+        etc...is restricted from protected to private.</font></li>
+      <li><font color="#ff0000">method setCalendar() is removed.</font></li>
+      <li><font color="#ff0000">value of serialVersionUID changed. From now on,
+        fields next and previous are transient.</font></li>
+    </ul>
+  </li>
+  <li>class Day (in addition to the previous paragraph)
+    <ul>
+      <li>new constructors Day(int, int, int, DayMode), Day(String, DayMode)</li>
+      <li>new methods getDayOfWeek(), getNumber(DayMode), toString(DayMode)</li>
+      <li>getWeek() method is not deprecated anymore.</li>
+    </ul>
+  </li>
+  <li>class DayMode
+    <ul>
+      <li>creation of the class.</li>
+    </ul>
+  </li>
+  <li>class SicgCalendar is renamed WorkCalendar.
+    <ul>
+      <li>new methods getDayInMonth(), getDayInWeek(), get DayInYear(), getSicgCalendar(boolean),
+        getMonth(), getWeek(), get Year(), setDayInMonth(), setDayInWeek(), setDayInYear(),
+        setMonth(), setDay(), setWeek()</li>
+      <li><font color="#ff0000">method getSicgCalendar() is renamed getCalendar().
+        Its accessibility is restricted from protected to package.</font></li>
+      <li><font color="#ff0000">method getWeek() is removed.</font></li>
+    </ul>
+  </li>
+  <li>class Interval
+    <ul>
+      <li>method toIntervals(java.util.List) replaces method toIntervals(java.util.ArrayList).</li>
+    </ul>
+  </li>
+  <li>classes Quarter, HalfYear, FourMonth
+    <ul>
+      <li><font color="#ff0000">these classes are removed.</font></li>
+    </ul>
+  </li>
+  <li><font color="#ff0000">class SicgDateException is renamed DateException.</font></li>
+</ul>
+<h3>V5.0.1 (17/08/2011)</h3>
+<ul>
+  <li>sicg.date.Day
+    <ul>
+      <li>A bug has been fixed in hashcode() method.</li>
+    </ul>
+  </li>
+</ul>
+<h3>V5.0 (31/05/2011)</h3>
+<ul>
+  <li>Starting with this version, SICG dates API is cut to sicg.dates package.
+    Two other packages were formerly also part of the component : sicg.datedConstraint
+    and sicg.datedConstraint.integrator2. From now on, these packages form a new
+    separate component and API, named datedConstraint. The javadoc of SICG dates
+    API is now bilingual english / french, with summaries in english only.</li>
+  <li>French-speaking previous release notes of SICG dates API deal with evolutions
+    of the sicg.dates package and also with the packages of datedConstraint API.</li>
+</ul>
+<h3>v4.4.5 (04/03/2011)</h3>
+<ul>
+  <li>sicg.date
+    <ul>
+      <li>la méthode Interval.toIntervals(sicg.util.List) est dépréciée,
+        et remplacée par une méthode toIntervals(java.util.ArrayList).</li>
+      <li>plus généralement, le package est rendu indépendant
+        de l'API SICG. Celle-ci n'est plus utilisée que dans la méthode
+        dépréciée mentionnée ci-dessus.</li>
+    </ul>
+  </li>
+</ul>
+<h3>v4.4.4 (21/12/2010)</h3>
+<ul>
+  <li>sicg.date : surcharge de la méthode hashcode() des classes concrètes
+    de dates. Désormais, deux instances identiques selon equals() ont le
+    même hashcode, il est ainsi possible d'utiliser des instances de ces
+    classes comme clés dans une hashtable.</li>
+</ul>
+<h3>v4.4.3 (13/12/2010)</h3>
+
+<ul>
+  <li>sicg.date.Week : correction d'un bug : la méthode shift ne marchait pas pour les décalages négatifs de plus d'un an.</li>
+</ul>
+<h3>v4.4.2 (18/10/2010)</h3>
+<ul><li>classe
+sicg.datedConstraint.SICHTabSplittedGroup : correction d'un bug dans
+buildTimeGroup appelé par time merge. Cela plantait lorsqu'il y avait
+aucun intervalle de temps.</li></ul>
+
+
+<h3>v4.4.1 (27/05/2010)</h3>
+<ul>
+  <li>package sicg.datedConstraint.integrator2.docveh</li><ul><li>classe ApplicableFromDocvContrainteFactory :&nbsp;</li></ul><ul><ul><li>Correction d'un bug : Une
+        exception était lancée si, pour une contrainte datée,
+        tout l'horizon était couvert par la plage de temps.</li></ul><ul><li>Seules
+les CasDEmploi dans la partie "non datée" des ContrainteDatee étaient
+prises en compte. Désormais, si c'est une autre contrainte qui est
+utilisée, alors elle sera exploitée (sous forme de ROConstraint).</li></ul></ul><ul><li>classe sicg.datedConstraint.integrator2.docveh:</li><ul><li>n'hérite plus de DynamicPartitionner (cf release notes de l'API SICG v2.70).</li></ul><ul><li><span style="color: rgb(255, 0, 0);">Nécessite l'API SICG v2.70</span></li></ul></ul>
+    </ul><ul><li>
+    <span style="color: rgb(255, 0, 0);"></span>classe
+sicg.dates.Day: optimisation de la méthode equals() et correction d'un
+bug dans la méthode shift(): &nbsp;si le décalage restait dans le mois,
+on le reculait d'un mois.<br><span style="color: rgb(255, 0, 0);"></span><br><span style="color: rgb(255, 0, 0);"></span>
+  </li>
+</ul>
+<h3>v4.4.0 (17/09/2009)</h3>
+<ul><li>package sicg.datedConstraint.integrator2.docveh: nouveau package permettant l'intégration de contrainte datées.</li><ul><li>classe
+ApplicableFromDocvContrainteFactory : cette classe permet de
+transformer des Contrainte datées en des contraintes applicables. Ces
+dernières peuvent alors être intégrées par l'intégrateur générique de
+l'API SICG.</li><li style="color: rgb(255, 0, 0);">Nécessite l'API SICG v2.63</li></ul><li>package sicg.datedConstraint:</li><ul><li>classe
+TimeLexicObject: ajout de la méthode intervalToCrits(Interval)
+permettant de donner les critères de l'objet temps recouvrant une
+intervalle.&nbsp;</li></ul></ul><h3>v4.3.4 (06/07/2009)</h3>
+<ul>
+  <li>package sicg.dates
+    <ul>
+      <li>classe sicg.dates.Interval : modification de la signature de
+la méthode "public boolean equals(Interval)" en "public boolean
+equals(Object)".</li>
+    </ul>
+  </li>
+</ul>
+<h3>v4.3.3 (04/06/2009)</h3>
+<ul>
+  <li>package sicg.datedConstraint
+    <ul>
+      <li>classe sicg.datedConstraint.TimeMerger : correction d'un bug
+dans la méthode merge().</li>
+    </ul>
+  </li>
+  <li>package sicg.dates
+    <ul>
+      <li>classe Month : correction d'un bug dans le constructeur
+Month(Calendar)</li>
+    </ul>
+  </li>
+</ul>
+<h3>v4.3.2 (22/04/2005)</h3>
+<ul>
+  <li>classe sicg.datedConstraint.SICHTabSplittedDatedDoc : correction
+d'un bug dans la méthode timeMerge().</li>
+</ul>
+<h3>v4.3.1 (11/04/2005)</h3>
+<ul>
+  <li>classe sicg.datedConstraint.SICHTabSplittedDatedDoc : correction
+d'un bug dans la méthode timeMerge().</li>
+</ul>
+<h3>v4.3 (04/03/2005)</h3>
+<ul>
+  <li>package sicg.datedConstraint</li>
+  <ul>
+    <li>ajout de l'interface DatedDoc</li>
+    <li>ajout des classes SICHTabDatedDoc et SICHTabSplittedDatedDoc,
+qui implémentent DatedDoc.</li>
+    <li>la classe DatedDocumentation est
+dépréciée. Elle est remplacée par
+SICHTabDatedDoc.</li>
+    <li>la classe TimeMerger est dépréciée. Pour
+fusionner des critères temps, utiliser la méthode
+timeMerge() de l'interface DatedDoc.</li>
+  </ul>
+  <li>package sicg.dates</li>
+  <ul>
+    <li>classe Interval : ajout de la méthode partUnion(). C'est
+une variante de la méthode part() qui ne génère
+pas de
+critères temps pour les trous entre les intervalles arguments.</li>
+  </ul>
+</ul>
+<h3>v4.2 (28/01/2005)</h3>
+<ul>
+  <li>package sicg.datedConstraint</li>
+  <ul>
+    <li>ajout de la classe TimeMerger, qui permet d'effectuer la fusion
+des critères temps dans une genericSICH.<br>
+    </li>
+  </ul>
+</ul>
+<h3>v4.1.1 (20/10/2004)</h3>
+<ul>
+  <li>package sicg.datedConstraint</li>
+  <ul>
+    <li>classe DatedDocumentation</li>
+    <ul>
+      <li>nouvelle correction de bug de la méthode
+refineIntervals() se manifestant en cas de SICH vide.</li>
+    </ul>
+  </ul>
+</ul>
+<h3>v4.1 (12/10/2004)</h3>
+<ul>
+  <li>package sicg.dates</li>
+  <ul>
+    <li>classe Interval</li>
+    <ul>
+      <li>ajout d'un constructeur Interval(Date, Date, boolean,
+boolean) d'intervalles dont chaque extrémité peut
+être ouverte ou fermée.</li>
+      <li>ajout d'une méthode subtract(Interval). Cette
+méthode implémente la notion de différence
+ensembliste de deux intervalles.</li>
+    </ul>
+  </ul>
+  <li>package sicg.datedConstraint</li>
+  <ul>
+    <li>classe DatedDocumentation</li>
+    <ul>
+      <li>correction de 2 bugs de la méthode refineIntervals() :</li>
+      <ul>
+        <li>plantage en cas de SICH vide</li>
+        <li>non modification de la SICH initiale quand celle-ci a
+0 critères temps.</li>
+      </ul>
+    </ul>
+  </ul>
+</ul>
+<h3>v4.0 (19/07/2004)</h3>
+<ul>
+  <li>package <a href="sicg/datedConstraint/package-summary.html">sicg.datedConstraint</a><br>
+  </li>
+  <ul>
+    <li>Ajout d'une interface <a href="sicg/datedConstraint/TimeConstraint.html">TimeConstraint </a>des
+contraintes temporelles.</li>
+  </ul>
+  <ul>
+    <li>Ajout d'une classe <a href="sicg/datedConstraint/SimpleTimeConstraint.html">SimpleTimeConstraint
+      </a>qui implémente TimeConstraint. Une instance
+représente une date de démarrage et une date
+d'arrêt pour une expression booléenne, comme les versions
+et les MTC du RIV.</li>
+  </ul>
+  <ul>
+    <li>classe <a href="sicg/datedConstraint/DtaedDocumentation.html">DatedDocumentation
+      </a>:</li>
+    <ul>
+      <li>ajout d'un constructeur
+DatedDocumentation(Documentation,Interval[])</li>
+      <li>ajout de deux méthodes statiques
+génériques de datation :</li>
+      <ol>
+        <li>DatedDocumentation dating(Documentation,TimeConstraint[])</li>
+        <li>DatedDocumentation
+dating(Documentation,TimeConstraint[],Interval)</li>
+      </ol>
+    </ul>
+    <li>les classes dépréciées DatedConstraint,
+ObjetTemps et Util sont supprimées.<br>
+    </li>
+    <ul>
+      <ol>
+      </ol>
+    </ul>
+  </ul>
+  <li>package <a href="sicg/dates/package-summary.html">sicg.dates</a></li>
+  <ul>
+    <li>classe <a href="sicg.dates.Interval.html">Interval </a>: la
+construction d'un intervalle de la forme [&nbsp;-&amp;infin;,
+-&amp;infin; ] ou [ +&amp;infin;, +&amp;infin;] retourne
+désormais un intervalle vide.</li>
+    <li>création de nouvelles sous-classes de <a href="sicg/dates/Date.html">Date</a>. Ces classes sont en tout point
+similaires aux classes déjà existantes :</li>
+    <ul>
+      <li><a href="sicg/dates/Quarter.html">Quarter</a> (trimestres
+industriels)</li>
+      <li><a href="sicg/dates/FourMonth.html">FourMonth</a>
+(quadrimestres industriels)</li>
+      <li><a href="sicg/datesSixMonth.html">SixMonth</a> (semestres
+industriels)</li>
+      <li><a href="sicg/dates/Year.html">Year</a> (années
+industrielles).<br>
+      </li>
+    </ul>
+  </ul>
+</ul>
+<h3> v3.1.5 (22/04/03)</h3>
+<ul>
+  <li> classe <a href="sicg/dates/Week.html">Week</a></li>
+  <ul>
+    <li> correction d'un bug qui se manifestait lors d'une conversion
+de type de date par l'usage de Week(Date), pour les versions 1.3 et
+suivantes de JDK. Attention : la nouvelle version ne fonctionne pas
+correctement avec une version de JDK antérieure à 1.3.</li>
+  </ul>
+</ul>
+<h3> v3.1.4 (17/10/02)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedDocumentation.html">DatedDocumentation</a></li>
+  <ul>
+    <li> La méthode refineIntervals() accepte maintenant les
+objets Temps à 0 critère.</li>
+  </ul>
+</ul>
+<h3> v3.1.3 (27/05/02)</h3>
+<ul>
+  <li> classe <a href="sicg/dates/Interval.html">Interval</a></li>
+  <ul>
+    <li> Correction d'un bug manifeste dans la méthode equals().</li>
+  </ul>
+</ul>
+<h3> v3.1.2 (15/04/02)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedDocumentation.html">DatedDocumentation</a></li>
+  <ul>
+    <li> Correction de la correction du bug de la méthode
+timeMerge().</li>
+  </ul>
+</ul>
+<h3> v3.1.1 (09/04/02)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedDocumentation.html">DatedDocumentation</a></li>
+  <ul>
+    <li> Correction d'un bug de la méthode timeMerge(), qui
+plantait avec une SICH de diversité vide. Dans ce cas, les
+critères temps s'il y en a sont fusionnés en un
+critère temps unique correspondant à l'intervalle union.</li>
+  </ul>
+</ul>
+<h3> v3.1 (13/02/02)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedDocumentation.html">DatedDocumentation</a></li>
+  <ul>
+    <li> Correction d'un bug collectif : les méthodes
+refineIntervals(Interval[]), timeMerge(), restrict(Interval),
+restrict(Interval, boolean) prennent désormais en compte le
+vecteur d'état de la SICH.</li>
+    <li> La méthode squeezeTime() n'exige plus que l'objet Temps
+soit isolé dans une SIC fille.</li>
+    <li> Correction d'un bug de la méthode restrict(), qui
+plantait avec un intervalle sans intersection avec la période
+de validité de la doc datée argument.</li>
+  </ul>
+  <li> classe <a href="sicg/dates/Interval.html">Interval</a></li>
+  <ul>
+    <li> Correction d'un bug dans la méthode gather(Interval[]),
+qui pouvait rendre un résultat erroné en présence
+de dates hétérogènes.</li>
+  </ul>
+  <li> classe Date</li>
+  <ul>
+    <li> La méthode setCalendar() est <b>deprecated</b>.</li>
+    <li> Ajout d'une méthode unboundedPositive() qui teste si
+l'instance est égale à plus l'infini.</li>
+  </ul>
+  <li> classes <a href="sicg/dates/Week.html">Week</a>, <a href="sicg/dates/Month.html">Month</a>, <a href="sicg/dates/CalendarMonth.html">CalendarMonth</a>, <a href="sicg/dates/Day.html">Day</a></li>
+  <ul>
+    <li> Les constructeurs Week, Month ...(Calendar) ainsi que la
+méthode getCalendar() sont <b>deprecated</b>. Pour construire
+des instances à la date courante utiliser à la place les
+constructeurs sans arguments.</li>
+    <li> Les constructeurs réalisant une conversion à
+partir d'un autre type de date supportent maintenant les dates infinies.</li>
+    <li> Correction d'un bug qui conduisait certaines instances
+générées par conversion de dates à partager
+le même calendrier.</li>
+  </ul>
+  <li> classe <a href="sicg/dates/Week.html">Week</a></li>
+  <ul>
+    <li> correction d'un bug apparaissant dans les conversions de date
+en JDK 1.3.</li>
+  </ul>
+  <li> classe <a href="sicg/dates/Day.html">Day</a></li>
+  <ul>
+    <li> La méthode getWeek() est <b>deprecated</b>. Utiliser
+à la place new Week(Date).</li>
+  </ul>
+  <li> classe <a href="sicg/dates/SicgCalendar.html">SicgCalendar</a></li>
+  <ul>
+    <li> La méthode getSicgCalendar() est <b>deprecated</b>.</li>
+    <li> La méthode getWeek() est <b>deprecated</b>. Utiliser
+à la place new Week().</li>
+  </ul>
+</ul>
+<h3> v3.0 (27/11/01)</h3>
+<ul>
+  <li> classe <a href="sicg/dates/Interval.html">Interval</a></li>
+  <ul>
+    <li> La variable de classe Interval.EMPTY désigne
+l'intervalle vide, qui n'était pas auparavant
+considéré comme un intervalle.</li>
+    <li> Ajout d'un constructeur d'intervalle vide Interval();</li>
+    <li> Ajout d'un constructeur Intervalle(Date), qui retourne
+l'intervalle associé à une date.</li>
+    <li> Ajout d'une méthode intersect(Interval) et d'une
+méthode intersect(Interval,int), qui remplacent les
+méthodes <b>deprecated</b> inter(Interval) et
+inter(Interval,int). Les méthodes
+intersect retournent Interval.EMPTY si l'intersection est vide.</li>
+    <li> La méthode inscriptible(Interval[]) est <b>deprecated</b>
+(son rôle est assuré par LexicTimeObject.toConstraint()).</li>
+    <li> Correction d'un bug dans la méthode status().</li>
+  </ul>
+  <li> classe <a href="sicg/dates/Week.html">Week</a></li>
+  <ul>
+    <li> Correction d'un bug dans la méthode getCalendar().</li>
+  </ul>
+  <li> classes <a href="sicg/dates/CalendarMonth.html">CalendarMonth</a>,
+    <a href="sicg/dates/Date.html">Date</a>, <a href="sicg/dates/Day.html">Day</a>, <a href="sicg/dates/Interval.html">Interval</a>,
+    <a href="sicg/dates/Month.html">Month</a>, <a href="sicg/dates/Week.html">Week</a></li>
+  <ul>
+    <li> Ajout de libellés dans les jetés d'exceptions.</li>
+  </ul>
+  <li> Ajout d'une classe <a href="sicg/datedConstraint/LexicTimeObject.html">LexicTimeObject</a>
+qui hérite de <a href="sicg/std/LexicObject.html">LexicObject</a>,
+et remplace ObjetTemps qui est <b>deprecated</b>.</li>
+  <ul>
+    <li> Les méthodes statiques critToInter(String) et
+interToCrit(Interval) sont équivalentes à leurs
+homologues de la classe ObjetTemps.</li>
+    <li> Les méthodes d'instance getIntervals() et
+toConstraint(Interval) correspondent aux la méthodes statiques
+de même nom de
+la classe ObjetTemps.</li>
+    <li> Correction d'un bug de la méthode toConstraint(), ou
+plus exactement extension de la notion d'inscriptibilité :
+un intervalle est inscriptible sur un objet Temps si il ne coupe aucun
+intervalle critère temps (ceux-ci sont tous inclus soit dans
+l'intervalle, soit dans son complémentaire).</li>
+  </ul>
+  <li> Ajout d'une classe <a href="sicg/datedConstraint/DatedDocumentation.html">DatedDocumentation</a>
+qui implémente les interfaces <a href="sicg/docveh/Documentation.html">Documentation</a> et <a href="sicg/docveh/DocVehTemps.html">DocVehTemps</a>. Cette classe
+étend DatedConstraint, qui est <b>deprecated</b>, à
+l'ensemble des documentations munies d'un objet Temps.</li>
+  <ul>
+    <li> Les méthodes d'instance refineIntervals(Interval[]),
+timeMerger() et validityDuration(Constraint) remplacent les
+méthodes statiques de DatedConstraint refineIntervals(),
+fusionTemps() et validityDuration().</li>
+    <li> validityDuration(Constraint) ne suppose plus que l'objet Temps
+soit au sommet.</li>
+    <li> Ajout de méthodes restrict(Interval) et
+restrict(Interval, boolean) de troncature d'une documentation à
+un intervalle de temps.</li>
+  </ul>
+  <li> La classe DatedConstraint.Util est <b>deprecated</b>.</li>
+</ul>
+<h3> v2.42 (23/04/01)</h3>
+<ul>
+  <li> classe <a href="sicg/dates/Interval.html">Interval</a></li>
+  <ul>
+    <li> Suppression d'un bug dans la méthode inter(Interval).</li>
+  </ul>
+  <li> classe <a href="sicg/dates/Month.html">Month</a></li>
+  <ul>
+    <li> Correction d'un bug dans le constructeur Month(String).</li>
+  </ul>
+  <li> suppression de la classe <b>deprecated</b> DateComparator.</li>
+  <li> suppression des méthodes <b>deprecated</b> suivantes:</li>
+  <ul>
+    <li> classe Date: compareFirst(Date),compareLast(Date)</li>
+    <li> classe Day: getDay()</li>
+    <li> classe Week: computeFirst()</li>
+    <li> classe DatedConstraint: getIntervals(DocVehTemps)</li>
+    <li> classe ObjetTemps : getCriteresTemps(LexicObject)</li>
+  </ul>
+</ul>
+<h3> v2.41 (08/01/00)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedConstraint.html">DatedConstraint</a></li>
+  <ul>
+    <li> Correction d'un bug dans la méthode&nbsp;
+fusionTemps(SICHTab, LexicObject). Il arrivait à cette
+méthode de perdre le dernier critère temps
+généré dans la fusion.</li>
+  </ul>
+</ul>
+<h3> v2.4 (15/12/00)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedConstraint.html">DatedConstraint</a></li>
+  <ul>
+    <li> Ajout d'une méthode LexicObject fusionTemps(SICHTab,
+LexicObject). Cette méthode fusionne les critères temps
+de diversité identique dans une SICHTab. La méthode
+modifie la SICHTab passée en argument et retourne un nouvel
+objet Temps.</li>
+  </ul>
+  <li> classes <a href="sicg/dates/Day.html">Day</a>, <a href="sicg/dates/Week.html">Week</a>, <a href="sicg/dates/Month.html">Month</a>,
+    <a href="sicg/dates/CalendarMonth.html">CalendarMonth</a></li>
+  <ul>
+    <li> &nbsp;Ajout de constructeurs évitant le recours
+explicite au calendrier:</li>
+    <ul>
+      <li> constructeurs sans arguments Day(), Week(), Month() et
+CalendarMonth() qui retournent l'instance de la date courante;</li>
+      <li> constructeurs Day(Date), Week(Date), Month(Date) et
+CalendarMonth(Date) qui retournent une instance correspondant au
+début de la date argument.</li>
+    </ul>
+  </ul>
+</ul>
+<h3> v2.31 (22/11/00)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedConstraint.html">DatedConstraint</a></li>
+  <ul>
+    <li> La méthode validityDuration retourne désormais
+un tableau d'intervalles vide dans le cas où la FGPMT argument
+n'a aucun critère temps (au lieu de se planter).</li>
+  </ul>
+  <li> les exceptions <a href="sicg/dates/WrongDateOrderException">WrongDateOrderException</a>,
+    <a href="sicg/dates/WrongDateTypeException">WrongDateTypeException</a>,
+    <a href="sicg/dates/NoSuchDateException">NoSuchDateException</a>, <a href="sicg/dates/UnBoundedDateException">UnboundedDateException</a>
+sont regroupées dans la classe <a href="sicg/dates/SicgDateException">SicgDateException</a>, sous-classe
+abstraite de IllegalArgumentException.</li>
+</ul>
+<h3> v2.3 (14/11/00)</h3>
+<ul>
+  <li> classe <a href="sicg/datedConstraint/DatedConstraint.html">DatedConstraint</a></li>
+  <ul>
+    <li> Correction d'un bug dans la méthode validityDuration.</li>
+  </ul>
+</ul>
+<h3> v2.2 (25/09/00)</h3>
+<ul>
+  <li> Un bug de la méthode java.util.Calendar.set(int field,int
+value) se manifeste sur certaines versions de JDK: plusieurs appels
+consécutifs de cette méthode peuvent donner une date
+erronée. Plusieurs modifications ont été
+effectuées afin de contourner ce bug, qui ne doit maintenant
+plus affecter le comportement de l'API:</li>
+  <ul>
+    <li> classe <a href="sicg/dates/Interval.html">Interval</a></li>
+    <ul>
+      <li> la méthode status(Interval) n'utilise plus de
+calendrier qu'en cas de comparaison de dates
+hétérogènes.</li>
+    </ul>
+    <li> classe <a href="sicg/dates/Week.html">Week</a></li>
+    <ul>
+      <li> la méthode setCalendar() est modifiée
+empiriquement de façon à ne pas provoquer ce bug.</li>
+    </ul>
+  </ul>
+  <li> Autres modifications:</li>
+  <ul>
+    <li> classe <a href="sicg/dates/Date.html">Date</a></li>
+    <ul>
+      <li> la méthode bounded() n'est plus abstract mais public.</li>
+      <li> equals(Object) devient une méthode publique de la
+classe Date et remplace la méthode de même nom des
+sous-classes.</li>
+      <li> getFirst() n'est plus abstract mais public.</li>
+    </ul>
+    <li> classes <a href="sicg/dates/Day.html">Day</a>, <a href="sicg/dates/Week.html">Week</a>, <a href="sicg/dates/Month.html">Month</a>,
+      <a href="sicg/dates/CalendarMonth.html">CalendarMonth</a></li>
+    <ul>
+      <li> &nbsp;la méthode setCalendar() jette
+UnboundedDateException si on l'utilise sur une date non bornée.</li>
+    </ul>
+    <li> classe <a href="sicg/dates/Week.html">Week</a></li>
+    <ul>
+      <li> la méthode computeFirst est <b>deprecated</b>.</li>
+    </ul>
+    <li> classe <a href="sicg/dates/SicgCalendar.html">SicgCalendar</a></li>
+    <ul>
+      <li> ajout d'une méthode okWeekOfYear(int,int) qui teste
+si un millésime et un numéro de semaine correspondent
+à une date réelle.</li>
+    </ul>
+  </ul>
+</ul>
+<h3> v2.1 (13/09/00)</h3>
+<ul>
+  <li> package <a href="sicg/dates/package-summary.html">sicg.dates</a></li>
+  <ul>
+    <li> classe <a href="sicg/dates/Interval.html">Interval</a></li>
+    <ul>
+      <li> simplification des constructeurs d'intervalles,
+évitant de recourir à un calendrier pour comparer des
+dates homogènes.</li>
+      <li> la méthode statique gather(Interval[]) retourne
+maintenant un tableau Interval[] et non plus une liste.</li>
+    </ul>
+  </ul>
+  <li> package sicg.datedConstraint</li>
+  <ul>
+    <li> classe <a href="sicg/datedConstraint/ObjetTemps.html">ObjetTemps</a></li>
+    <ul>
+      <li> ajout de la méthode getObjetTemps(Interval[]), qui
+construit un objet temps à partir d'intervalles.</li>
+      <li> la méthode getCriteresTemps(LexicObject) est <b>deprecated</b>.</li>
+    </ul>
+    <li> classe <a href="sicg/datedConstraint/DatedConstraint.html">DatedConstraint</a></li>
+    <ul>
+      <li> la méthode validityDuration retourne maintenant un
+tableau Interval[] et non plus une liste.</li>
+    </ul>
+  </ul>
+</ul>
+<h3> v2.0 (08/09/00)</h3>
+<ul>
+  <li> package <a href="sicg/dates/package-summary.html">sicg.dates</a></li>
+  <ul>
+    <li> classe <a href="sicg/dates/Date.html">Date</a></li>
+    <ul>
+      <li> ajout de compareTo(), méthode générale
+de comparaison de Dates. Cette méthode permet de comparer des
+dates de même type directement sans passer par le plus petit
+commun
+dénominateur (le jour). CompareTo() remplace compareFirst() et
+compareLast() qui sont désormais <b>deprecated</b>.</li>
+      <li> ajout de la méthode abstraite compareSame() de
+comparaison homogène dans le cadre de chacune des classes
+concrètes de Dates.</li>
+      <li> optimisation de next() et de previous(), désormais
+stockés en cache de manière à être
+calculés au plus une fois.</li>
+      <li> ajout de la méthode abstraite setCalendar(), qui
+retourne le calendrier de l'instance positionné au premier jour
+de l'instance.</li>
+      <li> ajout d'un attribut calendar et d'une méthode
+getCalendar() retournant cet attribut, un calendrier aux conventions en
+usage dans l'Entreprise pour le découpage des mois et des
+années en semaines.</li>
+      <li> ajout d'une méthode abstraite nbUnits(Date) qui
+mesure l'écart entre deux dates du même type dans
+l'unité de ces dates: l'écart entre deux semaines en
+semaines par exemple.</li>
+    </ul>
+    <li> La classe <a href="sicg/dates/DateComparator.html">DateComparator</a>
+est marquée <b>deprecated</b>. La comparaison et le tri de
+dates ne requiert plus de comparateur puisque les dates sont
+désormais comparables.</li>
+    <li> nouveautés communes à plusieurs sous-classes de
+Date</li>
+    <ul>
+      <li> ajout d'un constructeur en fonction d'un calendrier de la
+classe java.util.Calendar, qui retourne une instance à la date
+sur laquelle est positionné le calendrier: classes Day, Week,
+Month, CalendarMonth</li>
+      <li> ajout d'une méthode shift() retournant une nouvelle
+instance de date, décalée du nombre entier
+d'unités passé en paramètre: classes Day, Week,
+Month, CalendarMonth</li>
+      <li> correction d'un bug concernant la méthode equals()</li>
+    </ul>
+    <li> classe <a href="sicg/dates/Day.html">Day</a></li>
+    <ul>
+      <li> une instance de jour est désormais définie par
+le jour, le mois et l'année, et non plus par un numéro de
+jour dans l'année.</li>
+      <li> ajout d'un&nbsp; constructeur Day(jour,mois,an).</li>
+      <li> ajout d'une méthode equals() testant
+l'égalité de deux instances.</li>
+      <li> ajout d'un accesseur getMonth() qui retourne le mois
+calendaire de l'instance.</li>
+      <li> ajout d'une méthode getWeek() qui retourne une
+instance de la semaine dans laquelle se trouve le jour.</li>
+      <li> ajout d'une méthode getDayOfYear() retournant le jour
+dans l'année.</li>
+    </ul>
+    <li> classes <a href="sicg/dates/Month.html">Month</a> et <a href="sicg/dates/CalendarMonth.html">CalendarMonth</a></li>
+    <ul>
+      <li> la classe préexistante Month qui traitait des mois
+calendaires représente maintenant les mois industriels. Les mois
+calendaires sont désormais pris en compte par la classe
+CalendarMonth.</li>
+    </ul>
+    <li> classe <a href="sicg/dates/Interval.html">Interval</a></li>
+    <ul>
+      <li> ajout d'une méthode nbUnits(), valide uniquement
+pour les intervalles homogènes, c'est-à-dire dont les
+extrémités sont des Dates du même type. Retourne
+la longueur de l'intervalle exprimée en unités du type
+de ces dates.</li>
+      <li> optimisation de la méthode gather(Interval[]).</li>
+    </ul>
+    <li> classe <a href="sicg/dates/SicgCalendar.html">SicgCalendar</a></li>
+    <ul>
+      <li> Cette classe est maintenant une classe abstraite, qui
+regroupe des méthodes d'information impliquant le calendrier. On
+peut en fait distinguer deux types de besoin de calendrier:</li>
+      <ul>
+        <li> les besoins propres à chaque instance de date:
+exemple calculer le jour suivant. Ces besoins sont maintenant
+assurés par le calendrier variable d'instance de chaque date.</li>
+        <li> les besoins génériques. Il s'agit des
+méthodes suivantes: nbDays() (nombre de jours dans une
+année), nbWeeks() (nombre de semaines dans une année),
+firstDay() (jour de la semaine du premier jour de l'année). Ces
+services sont maintenant optimisés, chaque résultat
+étant calculé au plus une fois.</li>
+      </ul>
+      <li> ajout d'une méthode ok() qui vérifie la
+validité calendaire d'un triplet d'entiers jour/mois/an.</li>
+    </ul>
+  </ul>
+  <li> package <a href="sicg/datedConstraint/package-summary.html">sicg.datedConstraint</a></li>
+  <ul>
+    <li> la classe DatedConstraint est scindée en deux classes.
+Les méthodes traitant des critères de l'objet Temps sont
+regroupées dans une nouvelle classe <a href="sicg/datedConstraint/ObjetTemps.html">ObjetTemps</a>. Cette
+séparation prend en compte l'évolution de sicg.docveh:
+les méthodes de la classe ObjetTemps n'ont besoin que de
+l'interface DocVehTemps.</li>
+    <li> classe <a href="sicg/datedConstraint/DatedConstraint.html">DatedConstraint</a></li>
+    <ul>
+      <li> la méthode refineIntervals retourne maintenant la
+fgpmt argument quand elle n'a pas besoin d'être modifiée,
+c'est-à-dire quand tous les intervalles sont inscriptibles.
+(Cette modif fait suite à une demande de VTH datant de
+Day.BEGINNING_OF_TIME.)</li>
+      <li> les méthodes getIntervals(), getCriteresTemps(),
+temporalConstraint(), toConstraint() sont marquées <b>deprecated</b>.
+Elles sont remplacées par les méthodes
+équivalentes de même nom de la classe ObjetTemps, mais
+avec en argument l'objet Temps (d'une implémentation de
+DocVehTemps) au lieu d'une instance de FGPMilltemps.</li>
+      <li> optimisation de la méthode
+validityDuration(FGPMillTemps,ROConstraint).</li>
+    </ul>
+    <li> classe <a href="sicg/datedConstraint/Util.html">Util</a></li>
+    <ul>
+      <li> Cette classe regroupe des méthodes techniques
+relevant de sicg.std. C'est une classe transitoire dont les
+méthodes ont vocation soit à rejoindre sicg.std, soit
+à rester dans sicg.datedConstraint en temps que méthodes
+privées.</li>
+    </ul>
+  </ul>
+</ul>
+<h3> v1.2 (18/10/99)</h3>
+<ul>
+  <li> Classe Interval : ajout d'une méthode <a href="sicg.dates.Interval.html#gather%28sicg.dates.Interval%5B%5D%29">gather</a>,
+qui retourne une liste ordonnée d'intervalles disjoints et non
+contigus, équivalente à une liste d'intervalles
+quelconques passée en argument.</li>
+  <li> Suppression des doublons de méthodes compareTo et equals
+dans les sous-classes de Date.</li>
+</ul>
+<h3> v1.12 (28/05/99)</h3>
+<ul>
+  <li> Correction de bugs dans des méthodes de plusieurs classes
+de sicg.dates qui provoquaient des effets de bord sur le calendrier.</li>
+</ul>
+<h3> v1.11 (21/04/99)</h3>
+<ul>
+  <li> package dates:</li>
+  <ul>
+    <li> Classe Interval: devient sérialisable.</li>
+    <li> Interface Date: devient sérialisable.</li>
+    <li> Classes Day,Month,Week: correction de bugs dans les
+constructeurs.</li>
+  </ul>
+</ul>
+<h3> v1.1 ()</h3>
+<ul>
+  <li> <br>
+  </li>
+</ul>
+<h3> v1.0 (07/04/99)</h3>
+<ul>
+  <li> Publication de deux packages:</li>
+  <ul>
+    <li> sicg.dates, qui contient les classes de manipulation des dates
+et des intervalles de temps</li>
+    <li> sicg.datedConstraint, pour manipuler les contraintes faisant
+intervenir le temps.</li>
+  </ul>
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body></html>

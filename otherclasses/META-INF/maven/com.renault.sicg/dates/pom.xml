@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>dates</artifactId>
+  <version>5.3.0</version>
+
+  <!--  les infos de deploiement sont dans le super-pom général -->
+  <parent>
+  	<groupId>com.renault.sicg</groupId>
+  	<artifactId>super-pom-sicg</artifactId>
+  	<version>1.1.6</version>
+  </parent>
+    
+  <properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+  
+  <build>
+  	<!-- Projet migré d'un projet eclipse : sources dans "src" et non dans "src/main" -->
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>srcJUnit</testSourceDirectory>
+  	<!-- Projet migré d'un projet eclipse : resources dans "src" au lieu de "src/resources" -->
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    
+    <!-- Configuration des plugins utilisés pour le build -->
+    <plugins>
+    
+    	<!-- Cette API doit être compatible JDK 1.6 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+    
+    	<!--  Génération de la Javadoc sous forme de jar, à la phase package, pour être ensuite déployée sur Nexus -->
+      <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<docencoding>ISO-8859-1</docencoding>
+					<excludePackageNames>*.junit.*:*.test.*</excludePackageNames>
+					<overview>${basedir}/src/overview.html</overview>
+					<header>${project.version}</header>
+					<footer>${project.version}</footer>
+				</configuration>
+				<executions>
+					<execution>
+						<id>javadoc_generation</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+      </plugin>
+      
+      <!-- Ce qui suit ne sert que pour compatibilité avec l'ancien déploiement sur le Web SICG
+      Une fois tout le monde passé sous mvn, on pourra supprimer cette phase.-->
+      <!-- 
+      	Assemblage du Zip contenant les sources et les jars, à la phase deploy, donc pas déployée sur nexus.
+      	L'assemblage proprement dit est décrit dans le fichier assembly.xml
+      	Le zip produit est ensuite uploadé sur le Web SICG par le plugin ant (qui deploie aussi la javadoc et les release notes)
+      	-->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+         <configuration>
+          <descriptors>
+            <descriptor>assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+       </plugin>
+            
+      <!--  Fin du deploiement : utilisation de Ant pour uploader le zip de delivery et la javadoc sur le Web SICG -->
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+          	<id>deployOnWebSicg</id>
+            <phase>deploy</phase>
+            <configuration>
+              <target>
+                <echo message="Uploading on Web Sicg"/>
+              
+				<scp
+					todir="sicg:${sicg.web.password}@sicg.tpz.renault.fr:web/svg/DocDev/private"
+					sftp="true" trust="true">
+					<fileset dir="${project.build.directory}">
+						<include name="*.zip" />
+					</fileset>
+				</scp>
+                
+                <scp
+                	todir="sicg:${sicg.web.password}@sicg.tpz.renault.fr:web/svg/DocDev/dates"
+					sftp="true" trust="true">
+                  <fileset dir="${basedir}/src">
+                    <include name="releaseNotes.html" />
+                  </fileset>
+                </scp>
+                
+				<scp
+					todir="sicg:${sicg.web.password}@sicg.tpz.renault.fr:web/svg/DocDev/dates"
+					sftp="true" trust="true">
+					<fileset dir="${project.build.directory}/apidocs">
+						<include name="*/**" />
+					</fileset>
+				</scp>        
+                
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+         <dependencies>
+          <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>1.4.1</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-commons-net</artifactId>
+            <version>1.8.1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+            
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <formats>
+            <format>html</format>
+          </formats>
+        </configuration>
+        <executions>
+          <execution>
+          	<id>coverageTest</id>
+	        <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+          <execution>
+	        <phase>test</phase>
+            <goals>
+              <goal>cobertura</goal>
+            </goals>
+          </execution>
+        </executions>
+        
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
